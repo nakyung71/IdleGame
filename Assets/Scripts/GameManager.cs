@@ -6,20 +6,32 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Image image;
-    
+    public static GameManager Instance;
+    public CharacterData character; //이거에 대한 정보는? 인스펙터 드래그?
 
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
-        ItemData data= ResourceManager.Instance.GetItemData(1);
-        image.sprite=data.itemIcon;
+        Instance = this;
+        CharacterData characterData = new CharacterData();
+        this.character = characterData;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        SetData();
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(2));
+    }
+    public void SetData()
+    {
+        //정보를 세팅하는 메서드에 여기 있는 플레이어를 인자로 해서 전달을 해라
+        //예를 들어
+        UIManager.Instance.UiInventory.GetPlayerCharacter(character);
+        UIManager.Instance.UiStatus.GetPlayerCharacter(character);
+        //이렇게 하려면 결국 이 게임매니저가 관련 메서드를 가진 모든 클래스를 알아야하는거 아닌가?
+
+        //인터페이스로 뺼까? 이 부분을?
+        //IPlayerData이런식
     }
 }

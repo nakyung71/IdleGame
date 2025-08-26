@@ -5,26 +5,26 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     
-    [SerializeField] List<BaseUI> UIList=new List<BaseUI>();
+    List<BaseUI> UIList=new List<BaseUI>();
 
-    //[SerializeField] UIMainMenu _uiMainMenu;
-    //public UIMainMenu UiMainMenu
-    //{
-    //    get { return _uiMainMenu; }
+    [SerializeField] UIMainMenu _uiMainMenu;
+    public UIMainMenu UiMainMenu
+    {
+        get { return _uiMainMenu; }
 
-    //}
-    //[SerializeField] UIInventory _uiInventory;
-    //public UIInventory UiInventory
-    //{
-    //    get { return _uiInventory; }
+    }
+    [SerializeField] UIInventory _uiInventory;
+    public UIInventory UiInventory
+    {
+        get { return _uiInventory; }
 
-    //}
-    //[SerializeField] UIStatus _uiStatus;
-    //public UIStatus UiStatus
-    //{
-    //    get { return _uiStatus; }
+    }
+    [SerializeField] UIStatus _uiStatus;
+    public UIStatus UiStatus
+    {
+        get { return _uiStatus; }
 
-    //}
+    }
     Dictionary<UIKey,GameObject> uiKeyDictionary = new Dictionary<UIKey,GameObject>();
 
     Stack<GameObject> openedUIStack = new Stack<GameObject>();
@@ -37,6 +37,9 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        UIList.Add(UiMainMenu);
+        UIList.Add(UiInventory);
+        UIList.Add(UiStatus);
         foreach (var ui in UIList)
         {
             uiKeyDictionary.Add(ui.GetUIKey(),ui.gameObject);

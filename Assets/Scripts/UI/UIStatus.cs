@@ -12,6 +12,8 @@ public class UIStatus : BaseUI
     [SerializeField] TextMeshProUGUI defenceText;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] TextMeshProUGUI criticalRateText;
+
+    CharacterData characterData;
     public override UIKey GetUIKey()
     {
         return Key;
@@ -21,6 +23,17 @@ public class UIStatus : BaseUI
     {
         backButton.onClick.AddListener(CloseStatus);
     }
+
+    public void GetPlayerCharacter(CharacterData characterData)
+    {
+        this.characterData = characterData;
+    }
+
+    private void SetStatusData()
+    {
+        //attackText = $"{}";
+    }
+
     private void CloseStatus()
     {
         UIManager.Instance.CloseUI();

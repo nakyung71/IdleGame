@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
+    CharacterData character;
     // Start is called before the first frame update
     void Start()
     {
