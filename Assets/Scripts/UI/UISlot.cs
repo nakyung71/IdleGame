@@ -11,7 +11,8 @@ public class UISlot : MonoBehaviour,IPointerClickHandler
     [SerializeField] TextMeshProUGUI quantityText;
     [SerializeField] GameObject equipTextPrefab;
     [SerializeField] Image itemImage;
-    Outline outline;
+    public Outline outline;
+    UIInventory inventory;
     public int Quantity { get; private set; }
 
     public ItemData SlotItemData { get; private set; }
@@ -19,6 +20,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler
     private void Start()
     {
         outline = GetComponent<Outline>();
+        inventory = GetComponentInParent<UIInventory>();
     }
     public void SetItem(ItemData item)
     {
@@ -34,6 +36,9 @@ public class UISlot : MonoBehaviour,IPointerClickHandler
         
     }
 
+
+
+
     public void DiscardSlotItem()
     {
         SlotItemData = null;
@@ -44,6 +49,10 @@ public class UISlot : MonoBehaviour,IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if(this.SlotItemData != null)
+        {
+            inventory.SelectSlot(this);
+        }
         
     }
 }

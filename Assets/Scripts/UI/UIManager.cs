@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
         {
             ui.SetActive(true);
             openedUIStack.Push(ui);
+            Debug.Log(openedUIStack.Count);
         }
         else
         {

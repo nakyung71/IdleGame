@@ -11,6 +11,12 @@ public class CharacterData
 
     public List<ItemData> characterInventory = new List<ItemData>();
 
+    //이렇게 하지 말고 저 리스트를 private으로 바꾼다음
+
+    public List<RuntimeItemData> runtimeDataInventory = new List<RuntimeItemData>();
+
+
+
 
     public CharacterData()
     {

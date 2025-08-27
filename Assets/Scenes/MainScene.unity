@@ -4101,7 +4101,7 @@ GameObject:
   - component: {fileID: 1818488586}
   - component: {fileID: 1818488585}
   m_Layer: 5
-  m_Name: Image
+  m_Name: SelectedImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4456,6 +4456,11 @@ MonoBehaviour:
   contentBackground: {fileID: 894781043}
   slotPrefab: {fileID: 6620325074476547549, guid: fbdcceb9e7835fc4ca1dc986c0cf6e59, type: 3}
   backButton: {fileID: 1016153527}
+  selectedItemImage: {fileID: 1818488585}
+  selectedItemName: {fileID: 1231869781}
+  selectedItemDescription: {fileID: 2006536019}
+  useButton: {fileID: 1006586630}
+  discardButton: {fileID: 195472830}
 --- !u!1 &2006536017
 GameObject:
   m_ObjectHideFlags: 0

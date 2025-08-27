@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,8 +27,14 @@ public class UIInventory : BaseUI
     [SerializeField] Transform contentBackground;
     [SerializeField] UISlot slotPrefab;
     [SerializeField] Button backButton;
+    [SerializeField] Image selectedItemImage;
+    [SerializeField] TextMeshProUGUI selectedItemName;
+    [SerializeField] TextMeshProUGUI selectedItemDescription;
+    [SerializeField] Button useButton;
+    [SerializeField] Button discardButton;
     int slotNumber = 10;
     List<UISlot> slots = new List<UISlot>();
+    UISlot selectedSlot;
 
     public override void Init()
     {
@@ -70,9 +77,29 @@ public class UIInventory : BaseUI
         return null;
     }
 
-    
-    
+    public void SelectSlot(UISlot slot)
+    {
+        
+        if(selectedSlot!=null)
+        {
+            selectedSlot.outline.enabled = false;
+        }
+        selectedSlot = slot;
+        selectedSlot.outline.enabled = true;
+        SetDescriptionPanel();
 
+
+
+
+    }
+    
+    void SetDescriptionPanel()
+    {
+        ItemData data = selectedSlot.SlotItemData;
+        selectedItemName.SetText(data.itemName);
+        selectedItemDescription.SetText(data.itemDescription);
+        selectedItemImage.sprite=data.itemIcon;
+    }
 
     private void CloseInventory()
     {

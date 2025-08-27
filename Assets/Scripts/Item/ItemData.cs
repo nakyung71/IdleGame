@@ -27,5 +27,18 @@ public class ItemData
 }
 
 
+public class RuntimeItemData //이거에 대한 인스턴스는 언제 만들어줘야하지
+{
+    public ItemData itemData;
+    public int quantity;
+
+    public RuntimeItemData(ItemData itemData,int quantity)
+    {
+        this.itemData = itemData;
+        this.quantity = quantity;
+    }
+}
+
+
 
 
