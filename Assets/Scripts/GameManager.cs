@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
         character.AddItem(ResourceManager.Instance.GetItemData(1));
         character.AddItem(ResourceManager.Instance.GetItemData(2));
         character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(2));
+        
     }
     public void SetData()
     {

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    
+    public Canvas canvas;
+
     List<BaseUI> UIList=new List<BaseUI>();
 
     [SerializeField] UIMainMenu _uiMainMenu;
@@ -33,6 +34,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        
     }
 
     private void Start()
@@ -45,6 +47,7 @@ public class UIManager : MonoBehaviour
             uiKeyDictionary.Add(ui.GetUIKey(),ui.gameObject);
             ui.Init();
         }
+        canvas = GetComponent<Canvas>();
     }
 
     public void ShowUI(UIKey uIKey)

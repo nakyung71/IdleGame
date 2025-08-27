@@ -32,6 +32,7 @@ public class UIInventory : BaseUI
     [SerializeField] TextMeshProUGUI selectedItemDescription;
     [SerializeField] Button useButton;
     [SerializeField] Button discardButton;
+    [SerializeField] RectTransform dragLayerTransform;
     int slotNumber = 10;
     List<UISlot> slots = new List<UISlot>();
     UISlot selectedSlot;
@@ -42,6 +43,7 @@ public class UIInventory : BaseUI
         {
             UISlot slot = Instantiate(slotPrefab, contentBackground);
             slots.Add(slot);
+            slot.GetDragLayer(dragLayerTransform);
         }
         backButton.onClick.AddListener(CloseInventory);
         
@@ -95,7 +97,7 @@ public class UIInventory : BaseUI
     
     void SetDescriptionPanel()
     {
-        ItemData data = selectedSlot.SlotItemData;
+        ItemData data = selectedSlot.SlotItemData.itemData;
         selectedItemName.SetText(data.itemName);
         selectedItemDescription.SetText(data.itemDescription);
         selectedItemImage.sprite=data.itemIcon;
