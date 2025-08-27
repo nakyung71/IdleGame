@@ -48,18 +48,18 @@ public class UIInventory : BaseUI
     }
 
 
-    public void SetItemData(List<ItemData> itemDatas)
+    public void SetItemData(List<RuntimeItemData> runtimeItemDatas)
     {
-        Debug.Log(itemDatas.Count);
+
         foreach (UISlot uISlot in slots)
         {
             uISlot.DiscardSlotItem();
         }
 
-        foreach(ItemData item in itemDatas)
+        foreach (RuntimeItemData runtimeItem in character.runtimeDataInventory) 
         {
             
-            FindEmptySlot().SetItem(item);
+            FindEmptySlot().SetItem(runtimeItem);
         }
     }
 

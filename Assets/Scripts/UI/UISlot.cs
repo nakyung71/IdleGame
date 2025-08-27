@@ -22,11 +22,11 @@ public class UISlot : MonoBehaviour,IPointerClickHandler
         outline = GetComponent<Outline>();
         inventory = GetComponentInParent<UIInventory>();
     }
-    public void SetItem(ItemData item)
+    public void SetItem(RuntimeItemData runtimeItemData)
     {
-        SlotItemData = item;
-        Quantity++;
-        itemImage.sprite=item.itemIcon;
+        SlotItemData = runtimeItemData.itemData;
+        Quantity = runtimeItemData.quantity;
+        itemImage.sprite=runtimeItemData.itemData.itemIcon;
         quantityText.SetText(Quantity.ToString());
         
     }
