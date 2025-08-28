@@ -36,6 +36,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
     public void SetItem(RuntimeItemData runtimeItemData)
     {
         SlotItemData = runtimeItemData;
+        previousSlotItemData = null;
         Quantity = runtimeItemData?.quantity ?? 0;
         itemImage.sprite = runtimeItemData?.itemData.itemIcon;
         if(Quantity > 0)
@@ -85,6 +86,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         if(this.SlotItemData != null&&isDragging==false)
         {
             inventory.SelectSlot(this);
+            Debug.Log("슬롯이 선택됨");
         }
         
     }
@@ -162,7 +164,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
             UISlot originalSlot = eventData.pointerDrag.GetComponent<UISlot>();
             if(originalSlot != null)
             {
-                originalSlot.SlotItemData = originalSlot.previousSlotItemData;
+                originalSlot.SlotItemData = originalSlot.previousSlotItemData; //이 부분이 오류 가능성 높음
                 //기존에 있는 아이템 데이터(복사본)의 참조를 기존 슬롯에 다시 넣어줌
                 RuntimeItemData originalSlotItem = originalSlot.SlotItemData;
 
