@@ -23,9 +23,18 @@ public class CharacterData
 
     }
 
-    public void ChangeHealth()
+    public void ChangeAttack(float amount)
     {
+        Attack += amount;
+    }
 
+    public void ChangeDefence(float amount)
+    {
+        Defence += amount;
+    }
+    public void ChangeHealth(float amount)
+    {
+        Health += amount;
     }
     //리스트는 중복도 허용하니까 그냥 일단 넣어두고
     //만약 그게 겹쳐지는 아이템이라면 UI쪽에서 몇개인지 관리할까?

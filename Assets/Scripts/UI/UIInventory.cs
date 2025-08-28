@@ -31,8 +31,11 @@ public class UIInventory : BaseUI
     [SerializeField] TextMeshProUGUI selectedItemName;
     [SerializeField] TextMeshProUGUI selectedItemDescription;
     [SerializeField] Button useButton;
+    [SerializeField] Button equipButton;
     [SerializeField] Button discardButton;
     [SerializeField] RectTransform dragLayerTransform;
+    [SerializeField] TextMeshProUGUI equipText;
+
     int slotNumber = 12;
     List<UISlot> slots = new List<UISlot>();
     UISlot selectedSlot;
@@ -47,7 +50,9 @@ public class UIInventory : BaseUI
             slot.GetDragLayer(dragLayerTransform);
         }
         backButton.onClick.AddListener(CloseInventory);
-        
+        useButton.onClick.AddListener(UseItem);
+        equipButton.onClick.AddListener(EquipOrUnEquipItem);
+
     }
 
 
@@ -119,9 +124,21 @@ public class UIInventory : BaseUI
         //selectedSlot.outline.enabled = true;
         SetDescriptionPanel();
 
+        //여기 버튼 띄우기
+        switch (selectedSlot.SlotItemData.itemData.itemType)
+        {
+            case Itemtype.Potion:
+                useButton.gameObject.SetActive(true);
+                equipButton.gameObject.SetActive(false); break;
+            case Itemtype.Equipment:
+                useButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(true); break;
+            case Itemtype.Others:
+                useButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(false); break;
 
-
-
+        }
+        RefreshDescriptionPanel();
     }
     
     void SetDescriptionPanel()
@@ -135,5 +152,51 @@ public class UIInventory : BaseUI
     private void CloseInventory()
     {
         UIManager.Instance.CloseUI();
+    }
+
+    private void UseItem()
+    {
+
+    }
+
+    private void EquipOrUnEquipItem()
+    {
+        RuntimeItemData runtimeItemData = selectedSlot.SlotItemData;
+        if (runtimeItemData.isEquipped)
+        {
+            //이미 착용된 상태인데
+            character.ChangeAttack(-runtimeItemData.itemData.attackValue);
+            character.ChangeDefence(-runtimeItemData.itemData.defenceValue);
+            runtimeItemData.isEquipped = false;
+            RefreshDescriptionPanel();
+        }
+        else
+        {
+            character.ChangeAttack(runtimeItemData.itemData.attackValue);
+            character.ChangeDefence(runtimeItemData.itemData.defenceValue);
+            runtimeItemData.isEquipped=true;
+            RefreshDescriptionPanel() ;
+        }
+
+    }
+
+    private void RefreshDescriptionPanel()
+    {
+        if(selectedSlot==null)
+        {
+            return;
+        }
+        RuntimeItemData runtimeItemData = selectedSlot.SlotItemData;
+
+        if(runtimeItemData.isEquipped)
+        {
+
+            equipText.enabled = true;
+        }
+        else
+        {
+
+            equipText.enabled=false;
+        }
     }
 }
