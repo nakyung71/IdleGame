@@ -25,7 +25,40 @@ public class GameManager : MonoBehaviour
         character.AddItem(ResourceManager.Instance.GetItemData(3));
         character.AddItem(ResourceManager.Instance.GetItemData(4));
         character.AddItem(ResourceManager.Instance.GetItemData(5));
-        
+
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(2));
+        character.AddItem(ResourceManager.Instance.GetItemData(3));
+        character.AddItem(ResourceManager.Instance.GetItemData(4));
+        character.AddItem(ResourceManager.Instance.GetItemData(5));
+
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(1));
+
+
+
+
+
+
     }
     public void SetData()
     {

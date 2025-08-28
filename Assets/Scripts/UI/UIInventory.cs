@@ -33,12 +33,13 @@ public class UIInventory : BaseUI
     [SerializeField] Button useButton;
     [SerializeField] Button discardButton;
     [SerializeField] RectTransform dragLayerTransform;
-    int slotNumber = 10;
+    int slotNumber = 12;
     List<UISlot> slots = new List<UISlot>();
     UISlot selectedSlot;
 
     public override void Init()
     {
+        Debug.Log("InitµÊ");
         for (int i = 0; i < slotNumber; i++)
         {
             UISlot slot = Instantiate(slotPrefab, contentBackground);
@@ -50,23 +51,37 @@ public class UIInventory : BaseUI
     }
 
 
-    public void SetItemData(List<RuntimeItemData> runtimeItemDatas)
+    public void SetItemData(RuntimeItemData runtimeItemData)
     {
-
-        foreach (UISlot uISlot in slots)
+        if(runtimeItemData.itemData.isStackable)
         {
-            uISlot.DiscardSlotItem();
-        }
-
-        foreach (RuntimeItemData runtimeItem in character.runtimeDataInventory) 
-        {
+            UISlot foundSlot = FindStack(runtimeItemData);
             
-            FindEmptySlot().SetItem(runtimeItem);
+            if(foundSlot.SlotItemData != null)
+            {
+
+                foundSlot.RefreshUI();
+                return;
+
+            }
+            else
+            {
+                foundSlot.SetItem(runtimeItemData);
+                foundSlot.RefreshUI();
+            }
         }
+        else
+        {
+            FindEmptySlot().SetItem(runtimeItemData);
+        }
+        
+
+        
     }
 
     UISlot FindEmptySlot()
     {
+        Debug.Log(slots.Count);
         foreach (UISlot uISlot in slots)
         {
             if(uISlot.SlotItemData == null)
@@ -77,6 +92,20 @@ public class UIInventory : BaseUI
         }
         Debug.Log("ºó½½·ÔÀÌ ¾ø½À´Ï´Ù");
         return null;
+    }
+
+    UISlot FindStack(RuntimeItemData runtimeItemData)
+    {
+        foreach(UISlot uISlot in slots)
+        {
+            if(uISlot.SlotItemData == runtimeItemData )
+            {
+                return uISlot;
+                
+            }
+           
+        }
+        return FindEmptySlot();
     }
 
     public void SelectSlot(UISlot slot)

@@ -22,9 +22,11 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
     GameObject dragIcon;
     public int Quantity { get; private set; }
 
-    public RuntimeItemData SlotItemData { get; private set; }
 
-    private RuntimeItemData previousSlotItemData;
+    public RuntimeItemData SlotItemData {  get; private set; }
+
+
+    [SerializeField] private RuntimeItemData previousSlotItemData;
 
     private void Start()
     {
@@ -39,7 +41,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         previousSlotItemData = null;
         Quantity = runtimeItemData?.quantity ?? 0;
         itemImage.sprite = runtimeItemData?.itemData.itemIcon;
-        if(Quantity > 0)
+        if(Quantity > 1)
         {
             quantityText.SetText(Quantity.ToString());
         }
@@ -47,17 +49,13 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         {
             quantityText.SetText(string.Empty);
         }
-
-
-
-
-
     }
 
     public void RefreshUI()
     {
         itemImage.sprite = SlotItemData?.itemData.itemIcon;
-        if (Quantity > 0)
+        Quantity = SlotItemData?.quantity ?? 0;
+        if (Quantity > 1)
         {
             quantityText.SetText(Quantity.ToString());
         }

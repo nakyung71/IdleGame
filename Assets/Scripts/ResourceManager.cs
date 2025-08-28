@@ -30,7 +30,10 @@ public class ResourceManager : MonoBehaviour
             }  
             int key = int.Parse(columns[0]);
             int maxStack=int.Parse(columns[5]);
-            ItemData itemData = new ItemData(key, columns[1], columns[2], columns[3],maxStack); //인스턴스 만들어주고
+            int attackValue=int.Parse(columns[6]);
+            int defenceValue=int.Parse(columns[7]);
+            int potionValue=int.Parse(columns[8]);
+            ItemData itemData = new ItemData(key, columns[1], columns[2], columns[3], columns[4],maxStack,attackValue,defenceValue,potionValue); //인스턴스 만들어주고
             itemInfoDIctionary.Add(key, itemData);
         }
     }

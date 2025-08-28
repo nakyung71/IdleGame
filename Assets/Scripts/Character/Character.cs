@@ -31,23 +31,23 @@ public class CharacterData
     //만약 그게 겹쳐지는 아이템이라면 UI쪽에서 몇개인지 관리할까?
     public void AddItem(ItemData item)
     {
-        
-        foreach(RuntimeItemData runtimeItemData in runtimeDataInventory)
+
+        foreach (RuntimeItemData runtimeItemData in runtimeDataInventory)
         {
-            if(item==runtimeItemData.itemData&&item.isStackable==true)//여기다가 이제 Max스택 관련해서 조건같은거 나중에 넣던가 이런식으로
+            if (item == runtimeItemData.itemData && item.isStackable == true&&runtimeItemData.quantity<runtimeItemData.itemData.maxStack)//여기다가 이제 Max스택 관련해서 조건같은거 나중에 넣던가 이런식으로
             {
                 //이럴경우 이미 있는 아이템이니까 수량만 증가시켜준다.
-                runtimeItemData.quantity++; //여기서 최대 수량 관련해서는 좀 고민을 해보자
-                UIManager.Instance.UiInventory.SetItemData(runtimeDataInventory);
+                runtimeItemData.quantity++;
+                UIManager.Instance.UiInventory.SetItemData(runtimeItemData);
                 return;
-                
+
             }
         }
 
-        //만약 반복문을 돌려도 같은 아이템이 없으면/혹은 있지만 쌓을수 없을때 새로운 런타임 인스턴스를 만들어서 런타임 아이템 리스트에 넣어준다!
+        ////만약 반복문을 돌려도 같은 아이템이 없으면/혹은 있지만 쌓을수 없을때 새로운 런타임 인스턴스를 만들어서 런타임 아이템 리스트에 넣어준다!
         RuntimeItemData runtimeItem=new RuntimeItemData(item);
         runtimeDataInventory.Add(runtimeItem);
-        UIManager.Instance.UiInventory.SetItemData(runtimeDataInventory);
+        UIManager.Instance.UiInventory.SetItemData(runtimeItem);
     }
 
 }
