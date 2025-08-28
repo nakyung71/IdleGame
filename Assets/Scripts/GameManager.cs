@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
         SetData();
         character.AddItem(ResourceManager.Instance.GetItemData(1));
         character.AddItem(ResourceManager.Instance.GetItemData(2)); 
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(2));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
+        character.AddItem(ResourceManager.Instance.GetItemData(3));
+        character.AddItem(ResourceManager.Instance.GetItemData(4));
+        character.AddItem(ResourceManager.Instance.GetItemData(5));
         
     }
     public void SetData()

@@ -29,7 +29,8 @@ public class ResourceManager : MonoBehaviour
                 columns[j] = columns[j].Trim();
             }  
             int key = int.Parse(columns[0]);
-            ItemData itemData = new ItemData(key, columns[1], columns[2], columns[3]); //인스턴스 만들어주고
+            int maxStack=int.Parse(columns[5]);
+            ItemData itemData = new ItemData(key, columns[1], columns[2], columns[3],maxStack); //인스턴스 만들어주고
             itemInfoDIctionary.Add(key, itemData);
         }
     }

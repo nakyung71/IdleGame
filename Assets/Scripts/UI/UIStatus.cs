@@ -28,10 +28,17 @@ public class UIStatus : BaseUI
     {
         this.characterData = characterData;
     }
+    private void OnEnable()
+    {
+        SetStatusData();
+    }
 
     private void SetStatusData()
     {
-        //attackText = $"{}";
+        attackText.SetText($"Attack:\t{characterData.Attack}");
+        defenceText.SetText($"Defence:\t{characterData.Defence}");
+        healthText.SetText($"Health:\t{characterData.Health}");
+        criticalRateText.SetText($"CriticalRate:\t{characterData.CriticalRate}");
     }
 
     private void CloseStatus()

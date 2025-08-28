@@ -24,6 +24,8 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
 
     public RuntimeItemData SlotItemData { get; private set; }
 
+    private RuntimeItemData previousSlotItemData;
+
     private void Start()
     {
         outline = GetComponent<Outline>();
@@ -53,7 +55,15 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
 
     public void RefreshUI()
     {
-        
+        itemImage.sprite = SlotItemData?.itemData.itemIcon;
+        if (Quantity > 0)
+        {
+            quantityText.SetText(Quantity.ToString());
+        }
+        else
+        {
+            quantityText.SetText(string.Empty);
+        }
     }
 
     public void GetDragLayer(RectTransform rectTransform)
@@ -89,10 +99,17 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         dragIcon = new GameObject("Icon", typeof(Image));
 
 
-        dragIcon.GetComponent<Image>().sprite = SlotItemData.itemData.itemIcon;  
+        Image dragIconImage = dragIcon.GetComponent<Image>();
+        dragIconImage.sprite= SlotItemData.itemData.itemIcon; 
+
         dragIcon.transform.SetParent(dragLayerTransform,false); 
         RectTransform rectTransform = (RectTransform)dragIcon.transform;
         SetIconPosition(rectTransform,eventData.position);
+        previousSlotItemData = this.SlotItemData.DeepCopy(); //이거 넣어줘서 기좀 아이템 데이터 보존( 타 슬롯에 드래그 드롭 실패시) 근데 이렇게 하고 비울시 결국 참조형이라 다 비는 대참사
+        //그래서 깊은 복사로 복사해두기(새 인스턴스 만들어서)
+        dragIconImage.raycastTarget = false;
+        DiscardSlotItem();
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -111,20 +128,20 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
             return;
         }
         isDragging=false;
-        var results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, results);
-        foreach(var result in results)
+        var result = eventData.pointerCurrentRaycast.gameObject;
+        var uiSlot = result.GetComponent<UISlot>();
+        if( uiSlot != null )
         {
-            var slot=result.gameObject.GetComponent<UISlot>();
-            if(slot!= null)
-            {
-                slot.OnDrop(eventData);
-                Debug.Log("슬롯에 넣음");
-                Destroy(dragIcon);
-            }
             
+            Destroy(dragIcon);
+            Debug.Log("슬롯에 넣음");
+            
+            return;
         }
+
+        SlotItemData = previousSlotItemData;
         Destroy(dragIcon);
+        SetItem(SlotItemData);
 
 
 
@@ -141,16 +158,31 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
     {
         if(eventData!=null)
         {
+            
             UISlot originalSlot = eventData.pointerDrag.GetComponent<UISlot>();
-            RuntimeItemData originalSlotItem=originalSlot.SlotItemData;
-            originalSlot.SetItem(this.SlotItemData);
+            if(originalSlot != null)
+            {
+                originalSlot.SlotItemData = originalSlot.previousSlotItemData;
+                //기존에 있는 아이템 데이터(복사본)의 참조를 기존 슬롯에 다시 넣어줌
+                RuntimeItemData originalSlotItem = originalSlot.SlotItemData;
 
-            SetItem(originalSlotItem);
+                originalSlot.SetItem(this.SlotItemData);  //드랍이 된 그 슬롯의 데이터로 오리지넣 슬롯은 아이템이 생김 //여기가 문제일 가능성이 제일 큼
+
+                //드래그 해서 넣었을떄 복사되는 문제가 간혹생김
+                SetItem(originalSlotItem); //그리고 이 오리지넣 슬롯 아이템을 가지고 지금 이 드롭된 슬롯은 아이템을 저장
+
+
+            }
+
+ 
+
+
+
 
 
         }
-        
 
-        
+
+
     }
 }

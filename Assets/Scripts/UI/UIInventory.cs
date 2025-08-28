@@ -84,10 +84,10 @@ public class UIInventory : BaseUI
         
         if(selectedSlot!=null)
         {
-            selectedSlot.outline.enabled = false;
+            //selectedSlot.outline.enabled = false;
         }
         selectedSlot = slot;
-        selectedSlot.outline.enabled = true;
+        //selectedSlot.outline.enabled = true;
         SetDescriptionPanel();
 
 
