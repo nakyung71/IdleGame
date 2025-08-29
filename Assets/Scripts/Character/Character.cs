@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,28 @@ public class CharacterData
 {
     public float Attack { get; private set; } = 0f;
     public float Defence { get; private set; } = 0f;
-    public float Health { get; private set; } = 100f;
+    private float _health = 100f;
+    public float Health 
+    { 
+        get { return _health; } 
+        private set 
+        {
+            _health = Mathf.Clamp(value,0, 100f);
+            return;
+        } 
+    } 
     public float CriticalRate { get; private set; } = 0f;
 
+    public int Level { get; private set; } = 1;
 
+    public float CurrentExp { get; private set; } = 0;
+
+    public float MaxExp
+    {
+        get { return Level * 100; }
+    }
+
+    private Action OnExpChange;
 
     //이렇게 하지 말고 저 리스트를 private으로 바꾼다음
 
@@ -17,11 +36,6 @@ public class CharacterData
     //이걸 통해 내가 무슨 아이템을 몇개 가지고 있는지 파악 가능
 
 
-
-    public CharacterData()
-    {
-
-    }
 
     public void ChangeAttack(float amount)
     {
@@ -38,6 +52,38 @@ public class CharacterData
     }
     //리스트는 중복도 허용하니까 그냥 일단 넣어두고
     //만약 그게 겹쳐지는 아이템이라면 UI쪽에서 몇개인지 관리할까?
+
+    private void LevelUp()
+    {
+        Level++;
+        
+    }
+
+    public void GainExp(float exp)
+    {
+        CurrentExp += exp;
+        LevelExpCalculator();
+    }
+
+    private void LevelExpCalculator()
+    {
+        var neededExp = Level * 100;
+        while(CurrentExp > neededExp)
+        {
+            CurrentExp = CurrentExp - neededExp;
+            LevelUp();
+            neededExp = Level * 100;
+        }
+        OnExpChange?.Invoke();
+       
+    }
+    
+    public void SubscribeOnExpChangeEvent(Action action)
+    {
+        OnExpChange += action;
+    }
+
+
     public void AddItem(ItemData item)
     {
 

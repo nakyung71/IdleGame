@@ -12,6 +12,9 @@ public class UIMainMenu : BaseUI
     [SerializeField] Button inventoryButton;
     [SerializeField] Button statusButton;
     [SerializeField] GameObject godmodePanel;
+    [SerializeField] RectTransform friendshipRect;
+    [SerializeField] TextMeshProUGUI levelText;
+    [SerializeField] TextMeshProUGUI friendshipBarText;
     public override UIKey Key => UIKey.MainMenu;
 
     CharacterData character;
@@ -45,10 +48,12 @@ public class UIMainMenu : BaseUI
         godmodeButtonsList=godmodePanel.GetComponentsInChildren<Button>().ToList();
         SetGodModeButtons();
         
+        
     }
     public void GetPlayerCharacter(CharacterData character)
     {
         this.character = character;
+        character.SubscribeOnExpChangeEvent(UpdateFriendshipBar);
     }
 
     private void SetGodModeButtons()
@@ -60,9 +65,15 @@ public class UIMainMenu : BaseUI
             buttonTextComponent.SetText($"{buttonItemData.itemName} 추가");
             godmodeButtonsList[i].onClick.AddListener(() => character.AddItem(buttonItemData));
         }
+        godmodeButtonsList[godmodeButtonsList.Count - 1].onClick.AddListener(() => character.GainExp(100));
     }
-    private void OpenGodModePanel(bool open)
+    
+    private void UpdateFriendshipBar()
     {
-        
+        var friendShipBar = friendshipRect.sizeDelta;
+        friendShipBar.x = 760 * (character.CurrentExp/character.MaxExp);
+        friendshipRect.sizeDelta = friendShipBar;
+        friendshipBarText.SetText($"친밀도 게이지 \t{character.CurrentExp} / {character.MaxExp}");
+        levelText.SetText($"LV {character.Level}");
     }
 }

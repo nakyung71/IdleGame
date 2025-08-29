@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -49,20 +50,45 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         {
             quantityText.SetText(string.Empty);
         }
+
+        if (SlotItemData != null && SlotItemData.isEquipped == true)
+        {
+            equipTextPrefab.SetActive(true);
+        }
+        else
+        {
+            equipTextPrefab.SetActive(false);
+        }
     }
 
     public void RefreshUI()
     {
+        
         itemImage.sprite = SlotItemData?.itemData.itemIcon;
         Quantity = SlotItemData?.quantity ?? 0;
-        if (Quantity > 1)
+        if(Quantity==0)
         {
-            quantityText.SetText(Quantity.ToString());
+            DiscardSlotItem();
+
         }
-        else
+        else if (Quantity==1)
         {
             quantityText.SetText(string.Empty);
         }
+        else if (Quantity > 1)
+        {
+            quantityText.SetText(Quantity.ToString());
+        }
+
+        if(SlotItemData!=null&&SlotItemData.isEquipped==true)
+        {
+            equipTextPrefab.SetActive(true);
+        }
+        else
+        {
+            equipTextPrefab.SetActive(false);
+        }
+
     }
 
     public void GetDragLayer(RectTransform rectTransform)
@@ -86,6 +112,11 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
             inventory.SelectSlot(this);
             Debug.Log("ΩΩ∑‘¿Ã º±≈√µ ");
         }
+        else if(this.SlotItemData ==null&&isDragging==false)
+        {
+            inventory.SelectSlot(this, true);
+            Debug.Log("∫Û ΩΩ∑‘¿Ã º±≈√µ ");
+        }
         
     }
 
@@ -97,7 +128,7 @@ public class UISlot : MonoBehaviour,IPointerClickHandler,IBeginDragHandler,IDrag
         }
         isDragging = true;
         dragIcon = new GameObject("Icon", typeof(Image));
-
+        equipTextPrefab.SetActive(false) ;
 
         Image dragIconImage = dragIcon.GetComponent<Image>();
         dragIconImage.sprite= SlotItemData.itemData.itemIcon; 
