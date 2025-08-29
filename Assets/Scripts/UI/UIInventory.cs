@@ -37,6 +37,7 @@ public class UIInventory : BaseUI
     [SerializeField] TextMeshProUGUI equipText;
 
     int slotNumber = 12;
+    int extraSlotNumber = 6;
     List<UISlot> slots = new List<UISlot>();
     UISlot selectedSlot;
 
@@ -95,6 +96,8 @@ public class UIInventory : BaseUI
             }
             
         }
+        CreateExtraSlot();
+        FindEmptySlot();
         Debug.Log("ºó½½·ÔÀÌ ¾ø½À´Ï´Ù");
         return null;
     }
@@ -110,6 +113,7 @@ public class UIInventory : BaseUI
             }
            
         }
+        
         return FindEmptySlot();
     }
 
@@ -140,7 +144,18 @@ public class UIInventory : BaseUI
         }
         RefreshDescriptionPanel();
     }
-    
+    void CreateExtraSlot()
+    {
+        for(int i=0; i<extraSlotNumber; i++)
+        {
+            UISlot slot = Instantiate(slotPrefab, contentBackground);
+            slots.Add(slot);
+            slot.GetDragLayer(dragLayerTransform);
+        }
+        
+    }
+
+
     void SetDescriptionPanel()
     {
         ItemData data = selectedSlot.SlotItemData.itemData;

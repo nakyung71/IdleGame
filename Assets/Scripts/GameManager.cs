@@ -20,39 +20,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetData();
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(2)); 
-        character.AddItem(ResourceManager.Instance.GetItemData(3));
-        character.AddItem(ResourceManager.Instance.GetItemData(4));
-        character.AddItem(ResourceManager.Instance.GetItemData(5));
 
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(2));
-        character.AddItem(ResourceManager.Instance.GetItemData(3));
-        character.AddItem(ResourceManager.Instance.GetItemData(4));
-        character.AddItem(ResourceManager.Instance.GetItemData(5));
-
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
-        character.AddItem(ResourceManager.Instance.GetItemData(1));
 
 
 
@@ -66,6 +34,7 @@ public class GameManager : MonoBehaviour
         //예를 들어
         UIManager.Instance.UiInventory.GetPlayerCharacter(character);
         UIManager.Instance.UiStatus.GetPlayerCharacter(character);
+        UIManager.Instance.UiMainMenu.GetPlayerCharacter(character);
         //이렇게 하려면 결국 이 게임매니저가 관련 메서드를 가진 모든 클래스를 알아야하는거 아닌가?
 
         //인터페이스로 뺼까? 이 부분을?
