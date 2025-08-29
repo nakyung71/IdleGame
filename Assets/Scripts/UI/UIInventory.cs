@@ -43,7 +43,7 @@ public class UIInventory : BaseUI
 
     public override void Init()
     {
-        Debug.Log("InitµÊ");
+
         for (int i = 0; i < slotNumber; i++)
         {
             UISlot slot = Instantiate(slotPrefab, contentBackground);
@@ -51,9 +51,14 @@ public class UIInventory : BaseUI
             slot.GetDragLayer(dragLayerTransform);
         }
         backButton.onClick.AddListener(CloseInventory);
+
         useButton.onClick.AddListener(UseItem);
         equipButton.onClick.AddListener(EquipOrUnEquipItem);
+        discardButton.onClick.AddListener(DiscardItem);
 
+        useButton.gameObject.SetActive(false);     
+        equipButton.gameObject.SetActive(false);
+        discardButton.gameObject.SetActive(false);
     }
 
 
@@ -78,7 +83,8 @@ public class UIInventory : BaseUI
         }
         else
         {
-            FindEmptySlot().SetItem(runtimeItemData);
+             FindEmptySlot().SetItem(runtimeItemData);
+            
         }
         
 
@@ -87,7 +93,7 @@ public class UIInventory : BaseUI
 
     UISlot FindEmptySlot()
     {
-        Debug.Log(slots.Count);
+
         foreach (UISlot uISlot in slots)
         {
             if(uISlot.SlotItemData == null)
@@ -97,11 +103,20 @@ public class UIInventory : BaseUI
             
         }
         CreateExtraSlot();
-        FindEmptySlot();
-        Debug.Log("ºó½½·ÔÀÌ ¾ø½À´Ï´Ù");
-        return null;
+        return FindEmptySlot();
+
     }
 
+    void CreateExtraSlot()
+    {
+        for (int i = 0; i < extraSlotNumber; i++)
+        {
+            UISlot slot = Instantiate(slotPrefab, contentBackground);
+            slots.Add(slot);
+            slot.GetDragLayer(dragLayerTransform);
+        }
+
+    }
     UISlot FindStack(RuntimeItemData runtimeItemData)
     {
         foreach(UISlot uISlot in slots)
@@ -133,27 +148,33 @@ public class UIInventory : BaseUI
         {
             case Itemtype.Potion:
                 useButton.gameObject.SetActive(true);
+                discardButton.gameObject.SetActive(true);
                 equipButton.gameObject.SetActive(false); break;
             case Itemtype.Equipment:
                 useButton.gameObject.SetActive(false);
+                discardButton.gameObject.SetActive(true);
                 equipButton.gameObject.SetActive(true); break;
             case Itemtype.Others:
                 useButton.gameObject.SetActive(false);
+                discardButton.gameObject.SetActive(true);
                 equipButton.gameObject.SetActive(false); break;
 
         }
         RefreshDescriptionPanel();
     }
-    void CreateExtraSlot()
+
+    public void SelectSlot(UISlot slot,bool isEmpty)
     {
-        for(int i=0; i<extraSlotNumber; i++)
-        {
-            UISlot slot = Instantiate(slotPrefab, contentBackground);
-            slots.Add(slot);
-            slot.GetDragLayer(dragLayerTransform);
-        }
-        
+        //ºó ½½·ÔÀ» ¼±ÅÃÇßÀ» °æ¿ì ¿À¹ö·Îµå
+        selectedSlot = slot;
+        useButton.gameObject.SetActive(false);
+        equipButton.gameObject.SetActive(false);
+        discardButton.gameObject.SetActive(false);
+        selectedItemName.SetText(string.Empty);
+        selectedItemDescription.SetText(string.Empty);
+        selectedItemImage.sprite = null;
     }
+   
 
 
     void SetDescriptionPanel()
@@ -171,7 +192,9 @@ public class UIInventory : BaseUI
 
     private void UseItem()
     {
-
+        character.ChangeHealth(selectedSlot.SlotItemData.itemData.potionValue);
+        selectedSlot.SlotItemData.quantity--;
+        selectedSlot.RefreshUI();
     }
 
     private void EquipOrUnEquipItem()
@@ -183,6 +206,7 @@ public class UIInventory : BaseUI
             character.ChangeAttack(-runtimeItemData.itemData.attackValue);
             character.ChangeDefence(-runtimeItemData.itemData.defenceValue);
             runtimeItemData.isEquipped = false;
+            selectedSlot.RefreshUI();
             RefreshDescriptionPanel();
         }
         else
@@ -190,15 +214,28 @@ public class UIInventory : BaseUI
             character.ChangeAttack(runtimeItemData.itemData.attackValue);
             character.ChangeDefence(runtimeItemData.itemData.defenceValue);
             runtimeItemData.isEquipped=true;
+            selectedSlot.RefreshUI();
             RefreshDescriptionPanel() ;
         }
 
+    }
+
+    private void DiscardItem()
+    {
+        selectedSlot.DiscardSlotItem();
+        useButton.gameObject.SetActive(false);
+        equipButton.gameObject.SetActive(false);
+        discardButton.gameObject.SetActive(false);
+        selectedItemName.SetText(string.Empty);
+        selectedItemDescription.SetText(string.Empty);
+        selectedItemImage.sprite = null;
     }
 
     private void RefreshDescriptionPanel()
     {
         if(selectedSlot==null)
         {
+            
             return;
         }
         RuntimeItemData runtimeItemData = selectedSlot.SlotItemData;
