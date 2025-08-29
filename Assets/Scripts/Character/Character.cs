@@ -68,7 +68,7 @@ public class CharacterData
     private void LevelExpCalculator()
     {
         var neededExp = Level * 100;
-        while(CurrentExp > neededExp)
+        while(CurrentExp >= neededExp)
         {
             CurrentExp = CurrentExp - neededExp;
             LevelUp();
